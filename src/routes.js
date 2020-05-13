@@ -39,7 +39,7 @@ let router = [
         name: '',
         hidden: true
     },
-    //{ path: '/main', component: Main },
+
     {
         path: '/',
         component: Home,
@@ -114,8 +114,22 @@ let router = [
 	    children: [
 	        { path: '/student/list', component: StudentList, name: '学生列表' },
 	    ]
-	},	
-	{
+	},
+
+    {
+        path: '/',
+        component: Home,
+        name: '成绩管理',
+        iconCls: 'icon iconfont icon-dic-manager',
+        children: [
+            { path: '/grade/list', component: GradeCenter, name: '查询' },
+            { path: '/grade/add', component: GradeCenter, name: '新增' },
+            { path: '/grade/delete', component: GradeCenter, name: '删除' },
+            { path: '/grade/edit', component: GradeCenter, name: '编辑' },
+
+        ]
+    },
+    {
 	    path: '/',
 	    component: Home,
 	    name: '老师管理',

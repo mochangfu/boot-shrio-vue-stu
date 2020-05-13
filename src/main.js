@@ -22,8 +22,8 @@ Vue.use(Vuex)
 axios.defaults.withCredentials = true
 
 Vue.config.productionTip = false
-
-Vue.prototype.imgService = 'http://localhost/ftp' // 图片显示url
+Vue.prototype.imgService = 'http://localhost:8089' // 图片显示url
+//Vue.prototype.imgService = 'ftp://192.168.239.1' // 图片显示url
 Vue.prototype.uploadService = 'http://localhost:8089/' //上传图片url
 
 // 时间格式化

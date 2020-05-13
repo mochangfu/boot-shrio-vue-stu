@@ -33,14 +33,7 @@
 						 </el-submenu>
 						 <el-menu-item v-if="item.url!='/' && item.children.length>0" :index="item.children[0].url">{{item.children[0].name}}</el-menu-item>
 					 </template>
-					 <!--<i :class="item.iconCls"></i>-->
-					<!-- <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
-						<el-submenu :index="index+''" v-if="!item.leaf">
-							<template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
-							<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
-						</el-submenu>
-						<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
-					</template> -->
+
 				</el-menu>
 			 </transition>
 				<!--导航菜单-折叠后-->
@@ -53,31 +46,11 @@
 								<li v-for="child in item.children"  :key="child.url" class="el-menu-item" style="padding-left: 40px;" :class="$route.path==child.url?'is-active':''" @click="$router.push(child.url)">{{child.name}}</li>
 							</ul>
 						</template>
-						<!-- <template v-else>
-							<li class="el-submenu">
-								<div class="el-submenu__title el-menu-item" style="padding-left: 20px;height: 56px;line-height: 56px;padding: 0 20px;" :class="$route.path==item.children[0].url?'is-active':''" @click="$router.push(item.children[0].url)"><i :class="item.iconCls"></i></div>
-							</li>
-						</template> -->
+
 					</li>
 				</ul>
 				</el-collapse-transition>
-				<!-- <el-collapse-transition>
-				<ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
-					<li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item">
-						<template v-if="!item.leaf">
-							<div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)"><i :class="item.iconCls"></i></div>
-							<ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)">
-								<li v-for="child in item.children" v-if="!child.hidden" :key="child.path" class="el-menu-item" style="padding-left: 40px;" :class="$route.path==child.path?'is-active':''" @click="$router.push(child.path)">{{child.name}}</li>
-							</ul>
-						</template>
-						<template v-else>
-							<li class="el-submenu">
-								<div class="el-submenu__title el-menu-item" style="padding-left: 20px;height: 56px;line-height: 56px;padding: 0 20px;" :class="$route.path==item.children[0].path?'is-active':''" @click="$router.push(item.children[0].path)"><i :class="item.iconCls"></i></div>
-							</li>
-						</template>
-					</li>
-				</ul>
-				</el-collapse-transition> -->
+
 			</aside>
             <section class="content-container">
 				<div class="grid-content bg-purple-light">
@@ -247,16 +220,16 @@
 			beforeAvatarUpload(file) {
 
 				const isJPG = file.type === 'image/jpeg';
-        const isPNG = file.type === 'image/png';
+       // const isPNG = file.type === 'image/png';
 				const isLt2M = file.size / 1024 / 1024 < 2;
 
-				if (!isJPG && !isPNG) {
-					this.$message.error('上传头像图片只能是 JPG、PNG 格式!');
+				if (!isJPG) {
+					this.$message.error('上传头像图片只能是 JPG格式!');
 				}
 				if (!isLt2M) {
 					this.$message.error('上传头像图片大小不能超过 2MB!');
 				}
-				return (isJPG || isPNG) && isLt2M;
+				return (isJPG) && isLt2M;
 			},
 			initUserInfo() {
 				let _this = this
