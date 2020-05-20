@@ -2,16 +2,21 @@
 	<el-row class="container">
 		<el-col :span="24" class="header">
 			<el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-				{{collapsed?'':sysName}}
+				{{collapsed?'':menuName}}
 			</el-col>
-			<el-col :span="10">
+			<el-col :span="4">
 				<div class="tools" @click.prevent="collapse">
 					<i class="iconfont icon-shensuoanniu"></i>
 				</div>
 			</el-col>
+			<el-col :span="10" class="logo">
+				<div >
+					{{sysName}}
+				</div>
+			</el-col>
 			<el-col :span="4" class="userinfo">
 				<el-dropdown trigger="hover">
-					<span class="el-dropdown-link userinfo-inner"><img :src="userImg" /> 欢迎您,{{nickName}}</span>
+					<span class="el-dropdown-link userinfo-inner"><img :src="imgUrl" /> 欢迎您,{{nickName}}</span>
 					<el-dropdown-menu slot="dropdown">
 						<el-dropdown-item>我的消息</el-dropdown-item>
 						<el-dropdown-item @click.native="personalCenter">修改资料</el-dropdown-item>
@@ -24,35 +29,42 @@
 			<aside :class="collapsed?'menu-collapsed':'menu-expanded'">
 				<!--导航菜单-->
 				<transition name="el-fade-in">
-				<el-menu :default-active="$route.path" class="el-menu-vertical-demo el-menu-vertical-demo-main" style="width: 100%" @open="handleopen" @close="handleclose" @select="handleselect"
-					 unique-opened router v-show="!collapsed">
-					 <template v-for="(item,index) in userPerms" v-if="item.children.length > 0">
-						 <el-submenu :index="index+''">
-							 <template slot="title"><!--<i :class="item.iconCls"></i>-->{{item.name}}</template>
-							 <el-menu-item v-for="child in item.children" :index="child.url" :key="child.url" v-if="true">{{child.name}}</el-menu-item>
-						 </el-submenu>
-						 <el-menu-item v-if="item.url!='/' && item.children.length>0" :index="item.children[0].url">{{item.children[0].name}}</el-menu-item>
-					 </template>
-
-				</el-menu>
-			 </transition>
+					<el-menu :default-active="$route.path" class="el-menu-vertical-demo el-menu-vertical-demo-main" style="width: 100%" @open="handleopen" @close="handleclose" @select="handleselect"
+							 unique-opened router v-show="!collapsed">
+						<template v-for="(item,index) in userPerms" v-if="item.children.length > 0">
+							<el-submenu :index="index+''">
+								<template slot="title"><!--<i :class="item.iconCls"></i>-->{{item.name}}</template>
+								<el-menu-item v-for="child in item.children" :index="child.url" :key="child.url" v-if="true">{{child.name}}</el-menu-item>
+							</el-submenu>
+							<el-menu-item v-if="item.url!='/' && item.children.length>0" :index="item.children[0].url">{{item.children[0].name}}</el-menu-item>
+						</template>
+						<!--<i :class="item.iconCls"></i>-->
+						<!-- <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
+                            <el-submenu :index="index+''" v-if="!item.leaf">
+                                <template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
+                                <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
+                            </el-submenu>
+                            <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
+                        </template> -->
+					</el-menu>
+				</transition>
 				<!--导航菜单-折叠后-->
 				<el-collapse-transition>
-				<ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
-					<li v-for="(item,index) in userPerms" v-if="item.children.length > 0"  class="el-submenu item">
-						<template v-if="true">
-							<div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)"><!--<i :class="item.iconCls"></i>--></div>
-							<ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)">
-								<li v-for="child in item.children"  :key="child.url" class="el-menu-item" style="padding-left: 40px;" :class="$route.path==child.url?'is-active':''" @click="$router.push(child.url)">{{child.name}}</li>
-							</ul>
-						</template>
+					<ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
+						<li v-for="(item,index) in userPerms" v-if="item.children.length > 0"  class="el-submenu item">
+							<template v-if="true">
+								<div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)"><!--<i :class="item.iconCls"></i>--></div>
+								<ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)" @mouseout="showMenu(index,false)">
+									<li v-for="child in item.children"  :key="child.url" class="el-menu-item" style="padding-left: 40px;" :class="$route.path==child.url?'is-active':''" @click="$router.push(child.url)">{{child.name}}</li>
+								</ul>
+							</template>
 
-					</li>
-				</ul>
+						</li>
+					</ul>
 				</el-collapse-transition>
 
 			</aside>
-            <section class="content-container">
+			<section class="content-container">
 				<div class="grid-content bg-purple-light">
 					<el-col :span="24" class="breadcrumb-container">
 						<strong class="title">{{$route.name}}</strong>
@@ -63,7 +75,7 @@
 						</el-breadcrumb>
 					</el-col>
 					<el-col :span="24" class="content-wrapper">
-						 <transition name="el-zoom-in-top" mode="out-in">
+						<transition name="el-zoom-in-top" mode="out-in">
 							<router-view></router-view>
 						</transition>
 					</el-col>
@@ -71,191 +83,196 @@
 			</section>
 		</el-col>
 		<el-col>
-    <el-dialog
-		title="编辑个人信息"
-		:visible.sync="dialogVisible"
-		width="25%">
-    <div>
-			<el-form :inline="true" :model="userform"  ref="userform" :rules="rules" label-width="100px" style="margin: 0 auto;">
-				<el-form-item label="头像" prop="photoUrl">
-			    <el-upload
-			    name="pic"
-			    class="avatar-uploader"
-			    :action="uploadService + 'user/uploadHander'"
-			    :show-file-list="false"
-			    :on-success="handleAvatarSuccess"
-			    :before-upload="beforeAvatarUpload">
-			  <img v-if="userform.photoUrl" :src="userform.photoUrl" class="avatar">
-			  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-			  </el-upload>
-			  </el-form-item>
-				<el-form-item label="昵称"   prop="name">
-					<el-input type="text" placeholder="用户昵称" auto-complete="off" v-model="userform.name"></el-input>
-				</el-form-item>
-				<el-form-item label="邮箱" prop="email">
-					<el-input type="text" placeholder="用户邮箱" auto-complete="off" v-model="userform.email"></el-input>
-				</el-form-item>
-			</el-form>
-		</div>
-		<div slot="footer" class="dialog-footer">
-	    <el-button @click="dialogVisible = false">取 消</el-button>
-			<el-button @click="resetForm('userform')">重置</el-button>
-	    <el-button type="primary" @click="submitForm('userform')">确 定</el-button>
-	  </div>
-		</el-dialog>
+			<el-dialog
+					title="编辑个人信息"
+					:visible.sync="dialogVisible"
+					width="25%">
+				<div>
+					<el-form :inline="true" :model="userform"  ref="userform" :rules="rules" label-width="100px" style="margin: 0 auto;">
+						<el-form-item label="头 像" prop="photoPro">
+							<el-upload
+									name="fileName"
+									class="avatar-uploader"
+									:action="fileServerIp + 'user/uploadHander'"
+									:show-file-list="false"
+									:on-success="handleAvatarSuccess"
+									:before-upload="beforeAvatarUpload">
+								<img v-if="userform.photoUrl" :src="imgUrl" class="avatar">
+								<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+							</el-upload>
+						</el-form-item>
+						<el-form-item label="昵称"   prop="name">
+							<el-input type="text" placeholder="用户昵称" auto-complete="off" v-model="userform.name"></el-input>
+						</el-form-item>
+						<el-form-item label="邮箱" prop="email">
+							<el-input type="text" placeholder="用户邮箱" auto-complete="off" v-model="userform.email"></el-input>
+						</el-form-item>
+					</el-form>
+				</div>
+				<div slot="footer" class="dialog-footer">
+					<el-button @click="dialogVisible = false">取 消</el-button>
+					<el-button @click="resetForm('userform')">重置</el-button>
+					<el-button type="primary" @click="submitForm('userform')">确 定</el-button>
+				</div>
+			</el-dialog>
 		</el-col>
 	</el-row>
 </template>
 
 <script>
-  import http from '../utils/http'
-	export default {
-		data() {
-			return {
-				user: JSON.parse(sessionStorage.getItem('user')),
-				userPerms: JSON.parse(sessionStorage.getItem('user')).userPerms,
-				sysName: '学生管理系统-徐',
-				collapsed: false,
-				nickName: '', // 昵称
-				userImg: '', // 用户头像
-				uploadImg: '', // 上传的头像
-				dialogVisible: false,
-				userform: {
-					photoUrl: '',
-					name: '',
-					email: '',
-				},
-				// 表单验证
-				rules: {
-					photoUrl: [
-						{ required: true, message: '请选择头像'}
-					],
-					name: [
-						{ required: true, message: '请输入用户昵称'},
-						{ min: 2, max: 10, message: '长度在 5 到 12 个字符'}
-					],
-					email: [
-						{ required: true, message: '请输入邮箱地址' },
-						{ type: 'email', message: '请输入正确的邮箱地址' }
-					]
-				}
-			}
-		},
-		methods: {
-			handleopen() {
-				//console.log('handleopen');
-			},
-			handleclose() {
-				//console.log('handleclose');
-			},
-			handleselect: function (a, b) {
-			},
-			//退出登录
-			logout: function () {
-				var _this = this;
-				this.$confirm('确认退出吗?', '提示', {
-					type: 'warning'
-				}).then(() => {
-					sessionStorage.removeItem('user');
-					_this.$router.push('/login');
-				}).catch(() => {
-          return 'login'
-				})
-			},
-			//折叠导航栏
-			collapse:function(){
-				this.collapsed=!this.collapsed;
-			},
-			showMenu(i,status){
-				this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-'+i)[0].style.display=status?'block':'none';
-			},
-			// 表单提交
-			submitForm(formName) {
-				this.$refs[formName].validate((valid) => {
-					if (valid) {
-						console.log('submit');
-						this.editUserInfo()
-					} else {
-						console.log('error submit!!');
-						return false
-					}
-				})
-			},
-			// 重置
-			resetForm(formName) {
-				this.$refs[formName].resetFields();
-			},
-			// 个人中心信息
-			personalCenter() {
-				let _this = this
-				_this.dialogVisible = true
-				var user =  _this.user
-				if(user) {
-					_this.userform.photoUrl = _this.imgService + user.photoUrl,
-					_this.userform.name = user.username,
-					_this.userform.email = user.email
-				}
-			},
-			// 编辑个人信息
-			async editUserInfo() {
-				let _this = this
+    import http from '../utils/http'
+    export default {
+        data() {
+            return {
+                user: JSON.parse(sessionStorage.getItem('user')),
+                userPerms: JSON.parse(sessionStorage.getItem('user')).userPerms,
+                menuName: '菜单',
+                sysName: '学生管理系统',
+                collapsed: false,
+                nickName: '', // 昵称
+                uploadImg: '', // 上传的头像
+                imgUrl: '',
+                dialogVisible: false,
+                userform: {
+                    photoUrl: '',//头像名称
+                    name: '',
+                    email: '',
+                },
+                // 表单验证
+                rules: {
+                    photoUrl: [
+                        { required: true, message: '请选择头像'}
+                    ],
+                    name: [
+                        { required: true, message: '请输入用户昵称'},
+                        { min: 2, max: 10, message: '长度在 5 到 12 个字符'}
+                    ],
+                    email: [
+                        { required: true, message: '请输入邮箱地址' },
+                        { type: 'email', message: '请输入正确的邮箱地址' }
+                    ]
+                }
+            }
+        },
+        methods: {
+            handleopen() {
+                //console.log('handleopen');
+            },
+            handleclose() {
+                //console.log('handleclose');
+            },
+            handleselect: function (a, b) {
+            },
+            //退出登录
+            logout: function () {
+                var _this = this;
+                this.$confirm('确认退出吗?', '提示', {
+                    type: 'warning'
+                }).then(() => {
+                    sessionStorage.removeItem('user');
+                _this.$router.push('/login');
+            }).catch(() => {
+                    return 'login'
+                })
+            },
+            //折叠导航栏
+            collapse:function(){
+                this.collapsed=!this.collapsed;
+            },
+            showMenu(i,status){
+                this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-'+i)[0].style.display=status?'block':'none';
+            },
+            // 表单提交
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        console.log('submit');
+                        this.editUserInfo()
+                    } else {
+                        console.log('error submit!!');
+                return false
+            }
+            })
+            },
+            // 重置
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            // 个人中心信息
+            personalCenter() {
+                let _this = this
+                _this.dialogVisible = true
+                var user =  _this.user
+                if(user) {
+                    _this.userform.photoUrl=user.photoUrl,
+                        _this.userform.name = user.username,
+                        _this.userform.email = user.email
+                }
+            },
+            // 编辑个人信息
+            async editUserInfo() {
+        let _this = this
         let params = {
-					 id: _this.user.id,
-				   username: _this.userform.name,
-					 email: _this.userform.email,
-					 photoUrl: _this.uploadImg == ''?_this.user.userImg:_this.uploadImg
-				}
-				let data = await http.post('user/update', params)
-				if(data.data.status === 200) {
-           _this.message(true,data.data.msg,'success')
-					 _this.dialogVisible = false
-				} else {
-           _this.message(true,data.data.msg,'error')
-				}
-			},
-			handleAvatarSuccess(res, file) {
-				this.uploadImg = res
-				this.userform.photoUrl = URL.createObjectURL(file.raw);
-			},
-			beforeAvatarUpload(file) {
+            id: _this.user.id,
+            username: _this.userform.name,
+            email: _this.userform.email,
+            photoUrl: _this.uploadImg == ''?_this.user.photoUrl:_this.uploadImg
+        }
+        let data = await http.post('user/update', params)
+        if(data.data.status === 200) {
+            _this.message(true,data.data.msg,'success')
+            _this.dialogVisible = false
+        } else {
+            _this.message(true,data.data.msg,'error')
+        }
+    },
+    handleAvatarSuccess(res, file) {
+        this.uploadImg = res
+        this.userform.photoUrl = res;
+        this.userform.photoPro= URL.createObjectURL(file.raw);
+        URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
 
-				const isJPG = file.type === 'image/jpeg';
-       // const isPNG = file.type === 'image/png';
-				const isLt2M = file.size / 1024 / 1024 < 2;
+        const isJPG = file.type === 'image/jpeg';
+        const isPNG = file.type === 'image/png';
+        const isLt2M = file.size / 1024 / 1024 < 2;
 
-				if (!isJPG) {
-					this.$message.error('上传头像图片只能是 JPG格式!');
-				}
-				if (!isLt2M) {
-					this.$message.error('上传头像图片大小不能超过 2MB!');
-				}
-				return (isJPG) && isLt2M;
-			},
-			initUserInfo() {
-				let _this = this
-				var usr= _this.user
-				if (usr) {
-					this.nickName = usr.username
-					this.userImg = _this.imgService + usr.photoUrl
-				} else {
-					_this.$router.push('/login');
-				}
-			},
-			/**
-			 * ifshow: true/false msg: message  type: error/error/success
-			 */
-			message(ifshow,msg,type) {
-				this.$message({
-					showClose: ifshow,
-					message: msg,
-					type: type
-				})
-			}
-		},
-		mounted() {
-      this.initUserInfo()
-		}
-	}
+        if (!isJPG&&!isPNG ) {
+            this.$message.error('上传头像图片只能是 JPG,PNG格式!');
+        }
+        if (!isLt2M) {
+            this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return (isJPG || isPNG) && isLt2M;
+    },
+    initUserInfo() {
+        let _this = this
+        var usr= _this.user
+
+        if (usr) {
+            _this.nickName = usr.username,
+                _this.userform.photoUrl=user.photoUrl,
+                this.imgUrl = ileServerIp + 'user/headerImg/'+userform.photoUrl
+        } else {
+            _this.$router.push('/login');
+        }
+    },
+    /**
+     * ifshow: true/false msg: message  type: error/error/success
+     */
+    message(ifshow,msg,type) {
+        this.$message({
+            showClose: ifshow,
+            message: msg,
+            type: type
+        })
+    }
+    },
+    mounted() {
+        this.initUserInfo()
+    }
+    }
 
 </script>
 
@@ -390,27 +407,27 @@
 		}
 	}
 
-.avatar-uploader .el-upload {
-	 border: 1px dashed #d9d9d9;
-	 border-radius: 6px;
-	 cursor: pointer;
-	 position: relative;
-	 overflow: hidden;
- }
- .avatar-uploader .el-upload:hover {
-	 border-color: #409EFF;
- }
- .avatar-uploader-icon {
-	 font-size: 28px;
-	 color: #8c939d;
-	 width: 178px;
-	 height: 178px;
-	 line-height: 178px;
-	 text-align: center;
- }
- .avatar {
-	 width: 178px;
-	 height: 178px;
-	 display: block;
- }
+	.avatar-uploader .el-upload {
+		border: 1px dashed #d9d9d9;
+		border-radius: 6px;
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
+	}
+	.avatar-uploader .el-upload:hover {
+		border-color: #409EFF;
+	}
+	.avatar-uploader-icon {
+		font-size: 28px;
+		color: #8c939d;
+		width: 178px;
+		height: 178px;
+		line-height: 178px;
+		text-align: center;
+	}
+	.avatar {
+		width: 178px;
+		height: 178px;
+		display: block;
+	}
 </style>

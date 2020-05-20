@@ -50,12 +50,12 @@
 	    prop="totalTime"
 	    label="考试时长(分钟)" sortable>
 	  </el-table-column>
-	  <el-table-column
+	 <!-- <el-table-column
 	    prop="totalScore"
 	    label="考试总分" sortable>
-	  </el-table-column>
+	  </el-table-column>-->
 	  <!-- 查看或随机组卷 -->
-		<el-table-column
+		<!--<el-table-column
 			  fixed="right"
 			  label="操作"
 					width="180px"
@@ -74,7 +74,7 @@
 					随机组卷
 				</el-button>
 			  </template>
-		</el-table-column>	  
+		</el-table-column>	 -->
     </el-table>
 		</el-col>
 

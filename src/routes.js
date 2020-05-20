@@ -20,6 +20,7 @@ import CourseList from './views/course/CourseList.vue'
 import MyCourseList from './views/mycourse/MyCourseList.vue'
 import CourseCenter from './views/coursecenter/CourseCenter.vue'
 import GradeCenter from './views/grade/GradeCenter.vue'
+import GradeList from './views/grade/GradeList.vue'
 import myExam from './views/exam/myExam.vue'
 import examDetail from './views/exam/examDetail.vue'
 import answer from './views/exam/answer.vue'
@@ -39,7 +40,7 @@ let router = [
         name: '',
         hidden: true
     },
-
+    //{ path: '/main', component: Main },
     {
         path: '/',
         component: Home,
@@ -114,22 +115,8 @@ let router = [
 	    children: [
 	        { path: '/student/list', component: StudentList, name: '学生列表' },
 	    ]
-	},
-
-    {
-        path: '/',
-        component: Home,
-        name: '成绩管理',
-        iconCls: 'icon iconfont icon-dic-manager',
-        children: [
-            { path: '/grade/list', component: GradeCenter, name: '查询' },
-            { path: '/grade/add', component: GradeCenter, name: '新增' },
-            { path: '/grade/delete', component: GradeCenter, name: '删除' },
-            { path: '/grade/edit', component: GradeCenter, name: '编辑' },
-
-        ]
-    },
-    {
+	},	
+	{
 	    path: '/',
 	    component: Home,
 	    name: '老师管理',
@@ -146,7 +133,16 @@ let router = [
 	    children: [
 	        { path: '/course/list', component: CourseList, name: '课程列表' },
 	    ]
-	},		
+	},
+	{
+		path: '/',
+		component: Home,
+		name: '成绩管理',//老师页面
+		iconCls: 'icon iconfont icon-dic-manager',
+		children: [
+			{ path: '/grade/center', component: CourseList, name: '成绩统计' },
+		]
+	},
 	{
 	    path: '/',
 	    component: Home,
@@ -174,7 +170,7 @@ let router = [
 	    name: '个人中心',
 	    iconCls: 'icon iconfont icon-dic-manager',
 	    children: [
-	        { path: '/grade/center', component: GradeCenter, name: '成绩统计' },
+	        { path: '/grade/list', component: GradeCenter, name: '我的成绩' },
 	    ]
 	},						
     {
