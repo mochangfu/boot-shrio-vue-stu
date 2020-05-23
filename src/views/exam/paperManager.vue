@@ -26,10 +26,7 @@
 			@selection-change="handleSelectionChange1">
 			<el-table-column type="selection" width="55">
 			</el-table-column>
-<!--      <el-table-column
-        prop="id"
-        label="id">
-      </el-table-column> -->
+
 	  <el-table-column
 	    prop="examCourse"
 	    label="课程名称" sortable>
@@ -50,31 +47,6 @@
 	    prop="totalTime"
 	    label="考试时长(分钟)" sortable>
 	  </el-table-column>
-	 <!-- <el-table-column
-	    prop="totalScore"
-	    label="考试总分" sortable>
-	  </el-table-column>-->
-	  <!-- 查看或随机组卷 -->
-		<!--<el-table-column
-			  fixed="right"
-			  label="操作"
-					width="180px"
-					align="center">
-			  <template slot-scope="scope">
-				<el-button v-if="scope.row.totalScore!=0"
-					  @click.native="viewPaper(scope.row.id)"
-					  type="text"
-					  size="small">
-				  查看试卷
-				</el-button>
-				<el-button v-else
-					@click.native="randomPaper(scope.row.paperId)"
-					type="text"
-					size="small">
-					随机组卷
-				</el-button>
-			  </template>
-		</el-table-column>	 -->
     </el-table>
 		</el-col>
 
@@ -92,7 +64,7 @@
 		 </div>
 	</el-col>
 
-<!-- 新增班级 -->
+<!-- 新增 -->
 	<el-dialog title="新增考试" :visible.sync="dialogFormVisible1">
 	<div style="width:60%;margin: 0 auto">
 	<el-form ref="attr" :model="attr" :inline="false" label-width="90px" class="demo-ruleForm">
@@ -135,43 +107,6 @@
 		<el-button @click="dialogFormVisible1 = false">取 消</el-button>
 		<el-button @click="resetForm('attr')">重置</el-button>
 		<el-button type="primary" @click="submitForm('attr')">确 定</el-button>
-	</div>
-</el-dialog>
-
-<!-- 随机组卷 -->
-	<el-dialog title="随机组卷" :visible.sync="dialogFormVisible2">
-	<div style="width:60%;margin: 0 auto">
-	<el-form ref="attr" :model="attr" :inline="false" label-width="90px" class="demo-ruleForm">
-		<el-form-item label="填空题数量" prop="fillCnt2" :rules="[{ required: true, message: '请输入填空题数量', trigger: 'blur' },{validator: 'regexp', pattern: /^[1-9]\d*$/, message: '填空题数量只能是整数', trigger: 'change,blur'}]">
-			<el-input  type="number" v-model="attr.fillCnt2" placeholder="请输入填空题数量" auto-complete="off"></el-input>
-		</el-form-item>
-<!-- 		<el-form-item label="填空题分数" prop="fillScore2" :rules="[{ required: true, message: '请输入每题的分数', trigger: 'blur' },{validator: 'regexp', pattern: /^[1-5]$/, message: '每题的分数只能是1-5的整数', trigger: 'change,blur'}]">
-			<el-input  type="number" v-model="attr.fillScore2" placeholder="请输入每题的分数" auto-complete="off"></el-input>
-		</el-form-item> -->
-		<el-form-item label="判断题数量" prop="judgeCnt2" :rules="[{ required: true, message: '请输入判断题数量', trigger: 'blur' },{validator: 'regexp', pattern: /^[1-9]\d*$/, message: '判断题数量只能是整数', trigger: 'change,blur'}]">
-			<el-input  type="number" v-model="attr.judgeCnt2" placeholder="请输入判断题数量" auto-complete="off"></el-input>
-		</el-form-item>
-<!-- 		<el-form-item label="判断题分数" prop="judgeScore2" :rules="[{ required: true, message: '请输入每题的分数', trigger: 'blur' },{validator: 'regexp', pattern: /^[1-5]$/, message: '每题的分数只能是1-5的整数', trigger: 'change,blur'}]">
-			<el-input  type="number" v-model="attr.judgeScore2" placeholder="请输入每题的分数" auto-complete="off"></el-input>
-		</el-form-item> -->
-		<el-form-item label="单选题数量" prop="singleCnt2" :rules="[{ required: true, message: '请输入单选题数量', trigger: 'blur' },{validator: 'regexp', pattern: /^[1-9]\d*$/, message: '单选题数量只能是整数', trigger: 'change,blur'}]">
-			<el-input  type="number" v-model="attr.singleCnt2" placeholder="请输入单选题数量" auto-complete="off"></el-input>
-		</el-form-item>
-<!-- 		<el-form-item label="单选题分数" prop="singleScore2" :rules="[{ required: true, message: '请输入每题的分数', trigger: 'blur' },{validator: 'regexp', pattern: /^[1-5]$/, message: '每题的分数只能是1-5的整数', trigger: 'change,blur'}]">
-			<el-input  type="number" v-model="attr.singleScore2" placeholder="请输入每题的分数" auto-complete="off"></el-input>
-		</el-form-item> -->
-<!-- 		<el-form-item label="多选题数量" prop="multipleCnt2" :rules="[{ required: true, message: '请输入多选题数量', trigger: 'blur' },{validator: 'regexp', pattern: /^[1-9]\d*$/, message: '多选题数量只能是整数', trigger: 'change,blur'}]">
-			<el-input  type="number" v-model="attr.multipleCnt2" placeholder="请输入多选题数量" auto-complete="off"></el-input>
-		</el-form-item>
-		<el-form-item label="多选题分数" prop="multipleScore2" :rules="[{ required: true, message: '请输入每题的分数', trigger: 'blur' },{validator: 'regexp', pattern: /^[1-5]$/, message: '每题的分数只能是1-5的整数', trigger: 'change,blur'}]">
-			<el-input  type="number" v-model="attr.multipleScore2" placeholder="请输入每题的分数" auto-complete="off"></el-input>
-		</el-form-item> -->
-	</el-form>
- </div>
-	<div slot="footer" class="dialog-footer">
-		<el-button @click="dialogFormVisible2 = false">取 消</el-button>
-		<el-button @click="resetForm('attr')">重置</el-button>
-		<el-button type="primary" @click="startPaper()">开始组卷</el-button>
 	</div>
 </el-dialog>
 
@@ -336,7 +271,7 @@ export default {
 		submitForm(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
-					this.addInstitute()
+					this.addObj()
 				} else {
 					console.log('error submit!!');
 					return false
@@ -348,7 +283,7 @@ export default {
 			this.$refs[formName].resetFields();
 		},
 		// 新增属性
-		async addInstitute() {
+		async addObj() {
 			let _this = this
 			let params = {
 				examCourse: _this.attr.name2,

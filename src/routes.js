@@ -26,7 +26,8 @@ import examDetail from './views/exam/examDetail.vue'
 import answer from './views/exam/answer.vue'
 import paperManager from './views/exam/paperManager.vue'
 import questionManager from './views/exam/questionManager.vue'
-
+import myHomeworkAnswer from './views/homeWork/MyHomeworkAnswer'
+import homeworkManager from './views/homeWork/homeworkManager.vue'
 let router = [
     {
         path: '/login',
@@ -50,17 +51,10 @@ let router = [
             { path: '/main', component: Main, name: '主页', hidden: true },
             { path: '/user/list', component: UserList, name: '用户列表' },
             { path: '/ueditor', component: Ueditor, name: '富文本测试' },
+            { path: '/paper', component: paperManager, name: '考试管理'},
+            { path: '/question', component: questionManager, name: '题库管理' }
         ]
     },
-	{
-	    path: '/',
-	    component: Home,
-	    name: '考试管理',
-	    children: [
-	        { path: '/paper', component: paperManager, name: '考试管理'},
-	        { path: '/question', component: questionManager, name: '题库管理' }
-	    ]
-	},
     {
         path: '/',
         component: Home,
@@ -141,6 +135,7 @@ let router = [
 		iconCls: 'icon iconfont icon-dic-manager',
 		children: [
 			{ path: '/grade/center', component: CourseList, name: '成绩统计' },
+            { path: '/homework/center', component: homeworkManager, name: '作业中心' },
 		]
 	},
 	{
@@ -152,27 +147,13 @@ let router = [
 	        { path: '/course/mycourse', component: MyCourseList, name: '我的课程' },
 			{ path: '/exam', component: myExam, name: '我的考试' },
 			{ path: '/examDetail', component: examDetail, name: '考试详情' },
-			{ path: '/answer', component: answer, name: '考试答题' }
+			{ path: '/answer', component: answer, name: '考试答题' },
+            { path: '/course/center', component: CourseCenter, name: '课程中心' },
+            { path: '/grade/list', component: GradeCenter, name: '我的成绩' },
+            { path: '/myHomework/list', component: myHomeworkAnswer, name: '我的作业' },
 	    ]
 	},	
-	{
-	    path: '/',
-	    component: Home,
-	    name: '个人中心',
-	    iconCls: 'icon iconfont icon-dic-manager',
-	    children: [
-	        { path: '/course/center', component: CourseCenter, name: '课程中心' },
-	    ]
-	},	
-	{
-	    path: '/',
-	    component: Home,
-	    name: '个人中心',
-	    iconCls: 'icon iconfont icon-dic-manager',
-	    children: [
-	        { path: '/grade/list', component: GradeCenter, name: '我的成绩' },
-	    ]
-	},						
+
     {
         path: '/',
         component: Home,
@@ -185,15 +166,7 @@ let router = [
 
         ]
     },
-    {
-        path: '/',
-        component: Home,
-        name: 'TEST',
-        iconCls: 'icon iconfont icon-ceshi',
-        children: [
-            { path: '/Test', component: Test, name: '测试页面' },
-        ]
-    },
+
     {
         path: '*',
         hidden: true,

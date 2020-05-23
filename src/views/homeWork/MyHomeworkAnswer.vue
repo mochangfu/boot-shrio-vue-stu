@@ -44,21 +44,8 @@
                     <el-button type="primary" class="el-icon-search" v-on:click="getFormData1">查询</el-button>
                 </el-form-item>
                 <el-form-item>
-                    <el-upload
-                            name="fileName"
-                            class="avatar-uploader"
-                            :action="fileServerIp + 'exam/uploadFile'"
-                            :show-file-list="false"
-                            :data="{'userId':user_id,	'majorId': attr.majorId2,'instituteId': attr.instituteId2}"
-                            :on-success="handleAvatarSuccess"
-                            :before-upload="beforeAvatarUpload">
-
-                        <img label=" " v-if="1" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        <a  >  +上传习题</a>
-                    </el-upload>
+                    <el-button type="success" class="el-icon-plus" v-on:click="showDialogForm">新增</el-button>
                 </el-form-item>
-
                 <el-form-item>
                     <el-button type="danger" class="el-icon-delete" @click="batchDelete">删除</el-button>
                 </el-form-item>
@@ -92,7 +79,7 @@
                 <el-table-column
                         prop="fileName"
                         label="文件名" sortable
-                            display>
+                        display>
                 </el-table-column>
                 <el-table-column label="操作" align="center" min-width="100">
                     　　　　<template slot-scope="scope">
@@ -130,7 +117,7 @@
                 filters: {
                     keyword1: ''
                 },
-                user_id: JSON.parse(sessionStorage.getItem('user')).id,
+                userIdstr: JSON.parse(sessionStorage.getItem('user')).id,
                 attr: {
                     name2: '',
                     majorId2: null,
@@ -240,7 +227,7 @@
         this.getFormData1()
     },
     // 执行删除操作
-     downloadFile (file_name) {
+    downloadFile (file_name) {
         let _this = this;
         let url= _this.fileServerIp  +'exam/downloadFile?fileName='+file_name
         window.location.href=url
