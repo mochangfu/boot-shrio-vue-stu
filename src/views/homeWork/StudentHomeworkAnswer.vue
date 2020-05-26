@@ -5,7 +5,7 @@
         <el-col :span="64" class="toolbar" style="padding-bottom: 0px;width:100%;height:100%">
             <el-form :inline="true" :model="filters" ref="filters">
                 <el-form-item  class="inputclass">
-                    <el-input    placeholder="作业名称" v-model="filters.keyword1"></el-input>
+                    <el-input    placeholder="习题名称" v-model="filters.keyword1"></el-input>
                 </el-form-item>
 
                 <el-form-item style="display: none"    class="inputclass"  prop="instituteId2">
@@ -74,15 +74,15 @@
                         prop="userName"
                         label="上传人" sortable>
                 </el-table-column>
-               <!-- <el-table-column
-                        v-if=""
-                        prop="userId"
-                        label="上传人Id" sortable>
-                </el-table-column>-->
+                <!-- <el-table-column
+                         v-if=""
+                         prop="userId"
+                         label="上传人Id" sortable>
+                 </el-table-column>-->
                 <el-table-column
                         prop="fileName"
                         label="文件名" sortable
-                            display>
+                        display>
                 </el-table-column>
                 <el-table-column label="操作" align="center" min-width="100">
                     　　　　<template slot-scope="scope">
@@ -347,7 +347,7 @@
         this.getFormData1()
     },
     // 执行删除操作
-     downloadFile (file_name) {
+    downloadFile (file_name) {
         let _this = this;
         let url= _this.fileServerIp  +'exam/downloadFile?fileName='+file_name
         window.location.href=url
@@ -385,7 +385,7 @@
     handleAvatarSuccess(res, file)
     {
         this.uploadFile = res,
-        this.uploadFileName = res.name
+            this.uploadFileName = res.name
 
     }
     ,
@@ -398,7 +398,7 @@
         this.dialogFormVisible1 = true
         this.uploadFile = null
         this.uploadFileName ="作业文档",
-        this.getInstituteData()
+            this.getInstituteData()
     },
     // 查询学院列表
     async getInstituteData () {

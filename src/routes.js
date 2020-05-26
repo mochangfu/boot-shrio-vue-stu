@@ -28,6 +28,8 @@ import paperManager from './views/exam/paperManager.vue'
 import questionManager from './views/exam/questionManager.vue'
 import myHomeworkAnswer from './views/homeWork/MyHomeworkAnswer'
 import homeworkManager from './views/homeWork/homeworkManager.vue'
+import studentHomeworkAnswer from './views/homeWork/StudentHomeworkAnswer.vue'
+
 let router = [
     {
         path: '/login',
@@ -136,6 +138,9 @@ let router = [
 		children: [
 			{ path: '/grade/center', component: CourseList, name: '成绩统计' },
             { path: '/homework/center', component: homeworkManager, name: '作业中心' },
+            { path: '/myHomework/list', component: myHomeworkAnswer, name: '我的作业' },
+            { path: '/studentHomework/list', component: studentHomeworkAnswer, name: '学生作业' },
+
 		]
 	},
 	{
@@ -150,7 +155,7 @@ let router = [
 			{ path: '/answer', component: answer, name: '考试答题' },
             { path: '/course/center', component: CourseCenter, name: '课程中心' },
             { path: '/grade/list', component: GradeCenter, name: '我的成绩' },
-            { path: '/myHomework/list', component: myHomeworkAnswer, name: '我的作业' },
+
 	    ]
 	},	
 

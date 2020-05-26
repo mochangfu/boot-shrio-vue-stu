@@ -307,7 +307,7 @@
 <style>
 
     .avatar-uploader .el-upload {
-        border: 1px dashed #d9d9d9;
+        border: 1px dashed #d900d9;
         border-radius: 6px;
         cursor: pointer;
         position: relative;
@@ -315,12 +315,12 @@
     }
 
     .avatar-uploader .el-upload:hover {
-        border-color: #409EFF;
+        border-color: #400000;
     }
 
     .avatar-uploader-icon {
         font-size: 28px;
-        color: #8c939d;
+        color: #8c009d;
         width: 178px;
         height: 78px;
         line-height: 78px;
