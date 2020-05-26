@@ -79,11 +79,11 @@
                         prop="userId"
                         label="上传人Id" sortable>
                 </el-table-column>-->
-                <el-table-column
+            <!--    <el-table-column
                         prop="fileName"
                         label="文件名" sortable
                             display>
-                </el-table-column>
+                </el-table-column>-->
                 <el-table-column label="操作" align="center" min-width="100">
                     　　　　<template slot-scope="scope">
                     　　　　　　<el-button type="info" @click="downloadFile(scope.row.fileName)">下载</el-button>
