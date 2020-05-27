@@ -59,7 +59,7 @@
                 <el-table-column type="selection" width="55">
                 </el-table-column>
                 <el-table-column
-                        prop="name"
+                        prop="homeworkName"
                         label="习题名称" sortable>
                 </el-table-column>
                 <el-table-column
@@ -74,19 +74,38 @@
                         prop="userName"
                         label="上传人" sortable>
                 </el-table-column>
-                <!-- <el-table-column
-                         v-if=""
-                         prop="userId"
-                         label="上传人Id" sortable>
-                 </el-table-column>-->
-             <!--   <el-table-column
-                        prop="fileName"
-                        label="文件名" sortable
+
+                <el-table-column
+                        label="分数"
                         display>
-                </el-table-column>-->
+                    <template slot-scope="scope">
+                        {{scope.row.score}}
+                        <!--<el-input v-model="scope.row.score"></el-input> &lt;!&ndash;:disabled="!scope.row.diab;e"&ndash;&gt;-->
+                    </template>
+                </el-table-column>
+
+                <el-table-column
+                        prop="file"
+                        label="文件" sortable
+                        display>
+                </el-table-column>
+
                 <el-table-column label="操作" align="center" min-width="100">
                     　　　　<template slot-scope="scope">
-                    　　　　　　<el-button type="info" @click="downloadFile(scope.row.fileName)">下载</el-button>
+                    <el-upload
+                            name="fileName"
+                            class="avatar-uploader"
+                            :action="fileServerIp + 'file/uploadFile'"
+                            :show-file-list="false"
+                            :data="{'userId':user_id}"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+
+                        <img label=" " v-if="1" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        <a style="color: black;"> 上传</a>
+                    </el-upload>
+                    　<el-button style="height: 20px;width: 75px;font-size: 13px" type="info" @click="downloadFile(scope.row.fileName)">下载</el-button>
                     　　　　
                     　　　　</template>
                     　　</el-table-column>
@@ -108,8 +127,8 @@
             </div>
         </el-col>
 
-
-        <!-- 新增 -->
+<!--
+        &lt;!&ndash; 新增 &ndash;&gt;
         <el-dialog title="新增作业" :visible.sync="dialogFormVisible1">
             <div style="width:60%;margin: 0 auto">
                 <el-form ref="attr" :model="attr" :inline="false" label-width="90px" class="demo-ruleForm">
@@ -177,7 +196,7 @@
                 <el-button @click="resetForm('attr')">重置</el-button>
                 <el-button type="primary" @click="submitForm('attr')">确 定</el-button>
             </div>
-        </el-dialog>
+        </el-dialog>-->
 
 
     </el-row>
@@ -476,20 +495,20 @@
     }
 
     .avatar-uploader-icon {
-        font-size: 20px;
+        font-size: 15px;
         color: #8c939d;
-        width: 128px;
+        width: 118px;
         height: 58px;
         line-height: 58px;
         text-align: center;
     }
 
     .inputclass{
-        width: 150px;
+        width: 140px;
     }
 
     .avatar {
-        width: 80px;
+        width: 70px;
         height: 0px;
         display: table;
         background-color: #00a2d4;
