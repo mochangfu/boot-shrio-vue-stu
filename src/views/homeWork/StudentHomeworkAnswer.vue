@@ -4,20 +4,6 @@
         <!--工具条-->
         <el-col :span="64" class="toolbar" style="padding-bottom: 0px;width:100%;height:100%">
             <el-form :inline="true" :model="filters" ref="filters">
-                <!--    <el-form-item  class="inputclass">
-                        <el-input    placeholder="习题名称" v-model="filters.keyword1"></el-input>
-                    </el-form-item>-->
-
-                <!--  <el-form-item style="display: none"    class="inputclass"  prop="instituteId2">
-                      <el-select   v-model="attr.instituteId2" filterable placeholder="请选择学院" >&lt;!&ndash;@change="getMajorData"&ndash;&gt;
-                          <el-option
-                                  v-for="item in institutes"
-                                  :key="item.id"
-                                  :label="item.name"
-                                  :value="item.id">
-                          </el-option>
-                      </el-select>
-                  </el-form-item>-->
                 <el-form-item     class="inputclass" prop="majorId2">
                     <el-select v-model="attr.majorId2" filterable placeholder="请选择专业"   @change="getClazzData">  <!--@change="getClazzData"-->
                         <el-option
@@ -30,9 +16,20 @@
                 </el-form-item>
 
                 <el-form-item class="inputclass" prop="clazzId2">
-                    <el-select v-model="attr.clazzId2" filterable placeholder="请 选择班级">
+                    <el-select v-model="attr.clazzId2" filterable placeholder="请 选择班级" @change="gethomeworkData" >
                         <el-option
                                 v-for="item in clazzs"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
+                <el-form-item class="inputclass" prop="homeworkId">
+                    <el-select v-model="attr.homeworkId2" filterable placeholder="作业">
+                        <el-option
+                                v-for="item in homeworks"
                                 :key="item.id"
                                 :label="item.name"
                                 :value="item.id">
@@ -204,6 +201,7 @@
                     majorId2: null,
                     instituteId2: null,
                     clazzId2:null,
+                    homeworkId2:null,
                     desc2: '',
                     date2: '',
                     time2: '',
@@ -220,6 +218,7 @@
                 institutes:[],    //学院列表
                 majors:[],       //专业列表
                 clazzs:[],       //班级列表
+                homeworks:[],
                 uploadFile:null,//即将上传的作业
                 uploadFileName:"作业文档",//即将上传的作业名称
                 listLoading: false, // 加载等待
@@ -459,6 +458,25 @@
         } else {
             _this.message(true,data.data.msg,'error')
             _this.majors = []
+        }
+    },
+
+    //获取作业列表
+    async gethomeworkData (){
+        let _this = this
+        let param = {
+            clazz: _this.attr.clazzId2
+        }
+        let data = await http.get('homework/list',param);
+        if(!data.data) {
+            return
+        }
+        if (data.data.status === 200) {
+            _this.homeworks = data.data.data
+            _this.homeworks.unshift({"id":null,"name":""})
+        } else {
+            _this.message(true,data.data.msg,'error')
+            _this.homeworks = []
         }
     },
     //获取班级列表
