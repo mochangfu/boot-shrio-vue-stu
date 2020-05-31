@@ -42,12 +42,7 @@
                 <el-form-item>
                     <el-button type="primary" class="el-icon-search" v-on:click="getFormData1">查询</el-button>
                 </el-form-item>
-                <el-form-item>
-                    <el-button type="success" class="el-icon-plus" v-on:click="showDialogForm">新增</el-button>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="danger" class="el-icon-delete" @click="batchDelete">删除</el-button>
-                </el-form-item>
+
             </el-form>
         </el-col>
 
@@ -80,10 +75,13 @@
                         display>
                     <template slot-scope="scope">
                         {{scope.row.score}}
-                        <!--<el-input v-model="scope.row.score"></el-input> &lt;!&ndash;:disabled="!scope.row.diab;e"&ndash;&gt;-->
                     </template>
                 </el-table-column>
-
+                <el-table-column
+                        prop="fileName"
+                        label="文件名" sortable
+                        display>
+                </el-table-column>
                 <el-table-column
                         prop="file"
                         label="文件" sortable
@@ -95,9 +93,10 @@
                     <el-upload
                             name="fileName"
                             class="avatar-uploader"
-                            :action="fileServerIp + 'file/uploadFile'"
+                            :action="fileServerIp + 'homeworkAnswer/uploadFile'"
                             :show-file-list="false"
-                            :data="{'userId':user_id}"
+                            :data="{'userId':user_id,'id':scope.row.id}"
+
                             :on-success="handleAvatarSuccess"
                             :before-upload="beforeAvatarUpload">
 
@@ -368,7 +367,7 @@
     // 执行删除操作
     downloadFile (file_name) {
         let _this = this;
-        let url= _this.fileServerIp  +'exam/downloadFile?fileName='+file_name
+        let url= _this.fileServerIp  +'file/downloadFile/'+file_name
         window.location.href=url
     },
     // 获取选中集
@@ -404,8 +403,8 @@
     handleAvatarSuccess(res, file)
     {
         this.uploadFile = res,
-            this.uploadFileName = res.name
-
+            this.uploadFileName = res.name,
+        this.getFormData1()
     }
     ,
     beforeAvatarUpload(file)

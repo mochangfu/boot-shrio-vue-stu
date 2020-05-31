@@ -79,8 +79,7 @@
                         label="分数"
                         display>
                     <template slot-scope="scope">
-
-                        <el-input  v-model="scope.row.score" @blur="getFormData1"></el-input>
+                        <el-input  v-model="scope.row.score" @blur="editScore(scope.row.id,scope.row.score)" @click="readStatus=false"></el-input>
                     </template>
                 </el-table-column>
 
@@ -93,7 +92,7 @@
                 <el-table-column label="操作" align="center" min-width="100">
                     　　　　<template slot-scope="scope">
 
-                    　<el-button style="height: 20px;width: 75px;font-size: 13px" type="info" @click="downloadFile(scope.row.fileName)">下载</el-button>
+                    　<el-button style="height: 30px;width: 75px;font-size: 10px" type="info" @click="downloadFile(scope.row.fileName)">下载</el-button>
                     　　　　
                     　　　　</template>
                     　　</el-table-column>
@@ -245,7 +244,9 @@
                 attrIds: [], // 属性ids集合
                 detailIds: [], // 属性明细ids
                 attrId: '',
-                editing:true
+                editing:true,
+                readStatus:true
+
             }
         },
         methods: {
@@ -261,7 +262,7 @@
             major: _this.attr.majorId2,
             clazz: _this.attr.clazzId2
         }
-        let data = await http.get('homeworkAnswer/list', params)
+        let data = await http.get('homeworkAnswer/teacherlist', params)
 
         if(!data.data) {
             _this.listLoading = false
@@ -277,6 +278,24 @@
         }
         _this.listLoading = false
     },
+    // 查询属性editScore
+    async editScore (id1,score1) {
+        let params = {
+            id:id1,
+            score:score1
+        }
+        let data =await http.post('homeworkAnswer/edit', params)
+        if(!data.data) {
+            return
+        }
+        if (data.data.status === 200) {
+            this.message(true,data.data.msg,'success')
+        } else {
+            this.message(true,data.data.msg,'error')
+        }
+        this.getFormData1()
+    },
+
     // 添加属性表单提交
     submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -354,10 +373,10 @@
         }
         this.getFormData1()
     },
-    // 执行删除操作
+    // 操作
     downloadFile (file_name) {
         let _this = this;
-        let url= _this.fileServerIp  +'exam/downloadFile?fileName='+file_name
+        let url= _this.fileServerIp  +'file/downloadFile/'+file_name
         window.location.href=url
     },
     // 获取选中集
