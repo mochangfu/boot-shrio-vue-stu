@@ -13,9 +13,9 @@
 				<el-form-item>
 					<el-button type="success" class="el-icon-plus" v-on:click="dialogFormVisible1 = true">新增</el-button>
 				</el-form-item>
-<!-- 				<el-form-item>
+ 				<el-form-item>
 					<el-button type="danger" class="el-icon-delete" @click="delAttr">删除</el-button>
-				</el-form-item> -->
+				</el-form-item>
 			</el-form>
 		</el-col>
 
@@ -24,12 +24,8 @@
 			v-loading="listLoading" element-loading-text="拼命加载中"
       :data="tableData1"
 			@selection-change="handleSelectionChange1">
-<!-- 			<el-table-column type="selection" width="55">
-			</el-table-column> -->
-<!--      <el-table-column
-        prop="id"
-        label="id">
-      </el-table-column> -->
+ 			<el-table-column type="selection" width="55">
+			</el-table-column>
 	  <el-table-column
 	    prop="dictCode"
 	    label="字典代码">

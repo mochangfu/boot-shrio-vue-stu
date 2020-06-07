@@ -52,12 +52,12 @@ let router = [
         children: [
             { path: '/main', component: Main, name: '主页', hidden: true },
             { path: '/user/list', component: UserList, name: '用户列表' },
-            { path: '/ueditor', component: Ueditor, name: '富文本测试' },
+            { path: '/ueditor', component: Ueditor, name: '文本测试' },
             { path: '/paper', component: paperManager, name: '考试管理'},
             { path: '/question', component: questionManager, name: '题库管理' }
         ]
     },
-    {
+   /* {
         path: '/',
         component: Home,
         name: '权限管理',
@@ -66,7 +66,7 @@ let router = [
             { path: '/perms/list', component: PermiList, name: '菜单列表' },
             { path: '/role/list', component: RoleList, name: '角色权限' },
         ]
-    },
+    },*/
     {
         path: '/',
         component: Home,

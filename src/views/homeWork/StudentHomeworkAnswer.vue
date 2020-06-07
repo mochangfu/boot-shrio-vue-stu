@@ -107,43 +107,35 @@
           <!--      <el-table-column type="selection" width="55">
                 </el-table-column>-->
                 <el-table-column
-                        prop="homeworkName"
+                        prop="score"
                         label="分数" sortable>
-                </el-table-column>
-                <el-table-column
-                        prop="descrip"
-                        label="说明" sortable>
-                </el-table-column>
-                <el-table-column
-                        prop="postTime"
-                        label="上传日期" sortable>
-                </el-table-column>
-                <el-table-column
-                        prop="userName"
-                        label="上传人" sortable>
                 </el-table-column>
 
                 <el-table-column
-                        label="分数"
+                        prop="count"
+                        label="人数" sortable>
+                </el-table-column>
+
+         <!--       <el-table-column
+                        label="占比"
+                        label="人数" sortable>
                         display>
                     <template slot-scope="scope">
                         <el-input  v-model="scope.row.score" @blur="editScore(scope.row.id,scope.row.score)" @click="readStatus=false"></el-input>
                     </template>
                 </el-table-column>
-
+-->
                 <el-table-column
-                        prop="file"
-                        label="文件" sortable
-                        display>
+                        prop="percentStr"
+                        label="占比" sortable>
                 </el-table-column>
-
-                <el-table-column label="操作" align="center" min-width="100">
+              <!--  <el-table-column label="操作" align="center" min-width="100">
                     　　　　<template slot-scope="scope">
 
                     　<el-button style="height: 30px;width: 75px;font-size: 10px" type="info" @click="downloadFile(scope.row.fileName)">下载</el-button>
                     　　　　
                     　　　　</template>
-                    　　</el-table-column>
+                    　　</el-table-column>-->
 
             </el-table>
         </el-col>
@@ -284,11 +276,11 @@
         }
 
         if (data.data.status === 200) {
-            _this.tableData1 = data.data.data
+            _this.tableData2 = data.data.data
             _this.total1 = data.data.total
         } else {
             _this.message(true,data.data.msg,'error')
-            _this.formData1 = []
+            _this.formData2 = []
         }
         _this.listLoading = false
     },
