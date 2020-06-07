@@ -44,12 +44,7 @@ let router = [
         name: '',
         hidden: true
     },
-    {
-        path: '/welcome',
-        component: welcome,
-        name: '',
-        hidden: true
-    },
+
     //{ path: '/main', component: Main },
     {
         path: '/',
@@ -63,6 +58,17 @@ let router = [
             { path: '/paper', component: paperManager, name: '考试管理'},
             { path: '/question', component: questionManager, name: '题库管理' }
         ]
+    },
+    {
+        path: '/',
+        component: Home,
+        name: '欢迎页',
+        iconCls: 'icon iconfont icon-yonghurenxiang',//图标样式class
+        children: [
+            {     path: '/welcome',component: welcome, name: '欢迎页', hidden: true },
+
+        ]
+
     },
    /* {
         path: '/',
