@@ -23,8 +23,8 @@
       return {
         loginLoading: false,
         ruleForm2: {
-          account: 'admin',
-          checkPass: 'a123456a'
+          account: '',//admin
+          checkPass: ''//a123456a
         },
         rules2: {
           account: [

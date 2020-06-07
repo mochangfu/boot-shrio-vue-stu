@@ -46,12 +46,12 @@
 	    prop="teachersName"
 	    label="任课老师" sortable>
 	  </el-table-column>
-	  <el-table-column prop="score" label="得分" sortable>
+	  <!--<el-table-column prop="score" label="得分" sortable>
 		<template slot-scope="scope">
 			<span v-if="scope.row.status=='1'">{{scope.row.score}}</span>
 			<span v-else>未出成绩</span>
 		</template>
-	  </el-table-column>
+	  </el-table-column>-->
 <!-- 	  <el-table-column prop="score" label="课程状态" sortable>
 		<template slot-scope="scope">
 			<span v-if="scope.row.status=='1'">{{scope.row.score}}</span>

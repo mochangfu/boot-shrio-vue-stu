@@ -4,33 +4,9 @@
         <!--工具条-->
         <el-col :span="64" class="toolbar" style="padding-bottom: 0px;width:100%;height:100%">
             <el-form :inline="true" :model="filters" ref="filters">
-                <el-form-item  class="inputclass">
-                    <el-input    placeholder="习题名称" v-model="filters.keyword1"></el-input>
-                </el-form-item>
-
-              <!--  <el-form-item style="display: none"    class="inputclass"  prop="instituteId2">
-                    <el-select   v-model="attr.instituteId2" filterable placeholder="请选择学院" >&lt;!&ndash;@change="getMajorData"&ndash;&gt;
-                        <el-option
-                                v-for="item in institutes"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>-->
-               <!-- <el-form-item     class="inputclass" prop="majorId2">
-                    <el-select v-model="attr.majorId2" filterable placeholder="请选择专业"   @change="getClazzData">  &lt;!&ndash;@change="getClazzData"&ndash;&gt;
-                        <el-option
-                                v-for="item in majors"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
 
                 <el-form-item class="inputclass" prop="clazzId2">
-                    <el-select v-model="attr.clazzId2" filterable placeholder="请 选择班级">
+                    <el-select v-model="attr.clazzId2" filterable placeholder="请 选择班级" @change="gethomeworkData" >
                         <el-option
                                 v-for="item in clazzs"
                                 :key="item.id"
@@ -38,9 +14,17 @@
                                 :value="item.id">
                         </el-option>
                     </el-select>
-                </el-form-item>-->
-                <el-form-item>
-                    <el-button type="primary" class="el-icon-search" v-on:click="getFormData1">我的作业</el-button>
+                </el-form-item>
+
+                <el-form-item class="inputclass" prop="homeworkId">
+                    <el-select v-model="attr.homeworkId2" filterable placeholder="作业">
+                        <el-option
+                                v-for="item in homeworks"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
 
             </el-form>
@@ -74,14 +58,10 @@
                         label="分数"
                         display>
                     <template slot-scope="scope">
-                        {{scope.row.score}}
+                        <el-input  v-model="scope.row.score" @blur="editScore(scope.row.id,scope.row.score)" @click="readStatus=false"></el-input>
                     </template>
                 </el-table-column>
-                <el-table-column
-                        prop="fileName"
-                        label="文件名" sortable
-                        display>
-                </el-table-column>
+
                 <el-table-column
                         prop="file"
                         label="文件" sortable
@@ -90,21 +70,8 @@
 
                 <el-table-column label="操作" align="center" min-width="100">
                     　　　　<template slot-scope="scope">
-                    <el-upload
-                            name="fileName"
-                            class="avatar-uploader"
-                            :action="fileServerIp + 'homeworkAnswer/uploadFile'"
-                            :show-file-list="false"
-                            :data="{'userId':user_id,'id':scope.row.id}"
 
-                            :on-success="handleAvatarSuccess"
-                            :before-upload="beforeAvatarUpload">
-
-                        <img label=" " v-if="1" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        <a style="color: black;"> 上传</a>
-                    </el-upload>
-                    　<el-button style="height: 20px;width: 75px;font-size: 13px" type="info" @click="downloadFile(scope.row.fileName)">下载</el-button>
+                    　<el-button style="height: 30px;width: 75px;font-size: 10px" type="info" @click="downloadFile(scope.row.fileName)">下载</el-button>
                     　　　　
                     　　　　</template>
                     　　</el-table-column>
@@ -126,76 +93,76 @@
             </div>
         </el-col>
 
-<!--
-        &lt;!&ndash; 新增 &ndash;&gt;
-        <el-dialog title="新增作业" :visible.sync="dialogFormVisible1">
-            <div style="width:60%;margin: 0 auto">
-                <el-form ref="attr" :model="attr" :inline="false" label-width="90px" class="demo-ruleForm">
+        <!--
+                &lt;!&ndash; 新增 &ndash;&gt;
+                <el-dialog title="新增作业" :visible.sync="dialogFormVisible1">
+                    <div style="width:60%;margin: 0 auto">
+                        <el-form ref="attr" :model="attr" :inline="false" label-width="90px" class="demo-ruleForm">
 
-                    <el-form-item style="display: none"  label="学院" prop="instituteId2">
-                        <el-select v-model="attr.instituteId2" filterable placeholder="请选择" @change="getMajorData">
-                            <el-option
-                                    v-for="item in institutes"
-                                    :key="item.id"
-                                    :label="item.name"
-                                    :value="item.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="专业" prop="majorId2" :rules="[{ required: true }]">
-                        <el-select v-model="attr.majorId2" filterable placeholder="请选择" @change="getClazzData">
-                            <el-option
-                                    v-for="item in majors"
-                                    :key="item.id"
-                                    :label="item.name"
-                                    :value="item.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="班级"   prop="clazzId2" :rules="[{ required: true }]">
-                        <el-select v-model="attr.clazzId2" filterable placeholder="请选择班级">
-                            <el-option
-                                    v-for="item in clazzs"
-                                    :key="item.id"
-                                    :label="item.name"
-                                    :value="item.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
+                            <el-form-item style="display: none"  label="学院" prop="instituteId2">
+                                <el-select v-model="attr.instituteId2" filterable placeholder="请选择" @change="getMajorData">
+                                    <el-option
+                                            v-for="item in institutes"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="专业" prop="majorId2" :rules="[{ required: true }]">
+                                <el-select v-model="attr.majorId2" filterable placeholder="请选择" @change="getClazzData">
+                                    <el-option
+                                            v-for="item in majors"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="班级"   prop="clazzId2" :rules="[{ required: true }]">
+                                <el-select v-model="attr.clazzId2" filterable placeholder="请选择班级">
+                                    <el-option
+                                            v-for="item in clazzs"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
 
-                    <el-form-item label="作业名称" prop="name2" :rules="[{ required: true, message: '请输入作业名称', trigger: 'blur' }]">
-                        <el-input  type="text" v-model="attr.name2" placeholder="作业名称" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="作业介绍" prop="desc2">
-                        <el-input  type="text" v-model="attr.desc2" placeholder="作业介绍" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="上交日期" prop="date2" :rules="[{  message: '请输入作业日期', trigger: 'blur' }]">
-                        <el-input  type="date" v-model="attr.date2" placeholder="作业日期" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item>
+                            <el-form-item label="作业名称" prop="name2" :rules="[{ required: true, message: '请输入作业名称', trigger: 'blur' }]">
+                                <el-input  type="text" v-model="attr.name2" placeholder="作业名称" auto-complete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="作业介绍" prop="desc2">
+                                <el-input  type="text" v-model="attr.desc2" placeholder="作业介绍" auto-complete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="上交日期" prop="date2" :rules="[{  message: '请输入作业日期', trigger: 'blur' }]">
+                                <el-input  type="date" v-model="attr.date2" placeholder="作业日期" auto-complete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item>
 
-                        <el-upload
-                                name="fileName"
-                                class="avatar-uploader"
-                                :action="fileServerIp + 'file/uploadFile'"
-                                :show-file-list="false"
-                                :data="{'userId':user_id}"
-                                :on-success="handleAvatarSuccess"
-                                :before-upload="beforeAvatarUpload">
+                                <el-upload
+                                        name="fileName"
+                                        class="avatar-uploader"
+                                        :action="fileServerIp + 'file/uploadFile'"
+                                        :show-file-list="false"
+                                        :data="{'userId':user_id}"
+                                        :on-success="handleAvatarSuccess"
+                                        :before-upload="beforeAvatarUpload">
 
-                            <img label=" " v-if="1" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                            <a style="background-color: white  ;color: black;"> {{uploadFileName}}</a>
-                        </el-upload>
-                    </el-form-item>
-                </el-form>
-            </div>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible1 = false">取 消</el-button>
-                <el-button @click="resetForm('attr')">重置</el-button>
-                <el-button type="primary" @click="submitForm('attr')">确 定</el-button>
-            </div>
-        </el-dialog>-->
+                                    <img label=" " v-if="1" class="avatar">
+                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                    <a style="background-color: white  ;color: black;"> {{uploadFileName}}</a>
+                                </el-upload>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="dialogFormVisible1 = false">取 消</el-button>
+                        <el-button @click="resetForm('attr')">重置</el-button>
+                        <el-button type="primary" @click="submitForm('attr')">确 定</el-button>
+                    </div>
+                </el-dialog>-->
 
 
     </el-row>
@@ -216,6 +183,7 @@
                     majorId2: null,
                     instituteId2: null,
                     clazzId2:null,
+                    homeworkId2:null,
                     desc2: '',
                     date2: '',
                     time2: '',
@@ -232,6 +200,7 @@
                 institutes:[],    //学院列表
                 majors:[],       //专业列表
                 clazzs:[],       //班级列表
+                homeworks:[],
                 uploadFile:null,//即将上传的作业
                 uploadFileName:"作业文档",//即将上传的作业名称
                 listLoading: false, // 加载等待
@@ -255,7 +224,10 @@
                 innerVisible: false,
                 attrIds: [], // 属性ids集合
                 detailIds: [], // 属性明细ids
-                attrId: ''
+                attrId: '',
+                editing:true,
+                readStatus:true
+
             }
         },
         methods: {
@@ -271,7 +243,7 @@
             major: _this.attr.majorId2,
             clazz: _this.attr.clazzId2
         }
-        let data = await http.get('homeworkAnswer/list', params)
+        let data = await http.get('homeworkAnswer/teacherlist', params)
 
         if(!data.data) {
             _this.listLoading = false
@@ -287,6 +259,24 @@
         }
         _this.listLoading = false
     },
+    // 查询属性editScore
+    async editScore (id1,score1) {
+        let params = {
+            id:id1,
+            score:score1
+        }
+        let data =await http.post('homeworkAnswer/edit', params)
+        if(!data.data) {
+            return
+        }
+        if (data.data.status === 200) {
+            this.message(true,data.data.msg,'success')
+        } else {
+            this.message(true,data.data.msg,'error')
+        }
+        this.getFormData1()
+    },
+
     // 添加属性表单提交
     submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -364,7 +354,7 @@
         }
         this.getFormData1()
     },
-    // 执行删除操作
+    // 操作
     downloadFile (file_name) {
         let _this = this;
         let url= _this.fileServerIp  +'file/downloadFile/'+file_name
@@ -403,8 +393,8 @@
     handleAvatarSuccess(res, file)
     {
         this.uploadFile = res,
-            this.uploadFileName = res.name,
-        this.getFormData1()
+            this.uploadFileName = res.name
+
     }
     ,
     beforeAvatarUpload(file)
@@ -450,6 +440,25 @@
         } else {
             _this.message(true,data.data.msg,'error')
             _this.majors = []
+        }
+    },
+
+    //获取作业列表
+    async gethomeworkData (){
+        let _this = this
+        let param = {
+            clazz: _this.attr.clazzId2
+        }
+        let data = await http.get('homework/list',param);
+        if(!data.data) {
+            return
+        }
+        if (data.data.status === 200) {
+            _this.homeworks = data.data.data
+            _this.homeworks.unshift({"id":null,"name":""})
+        } else {
+            _this.message(true,data.data.msg,'error')
+            _this.homeworks = []
         }
     },
     //获取班级列表

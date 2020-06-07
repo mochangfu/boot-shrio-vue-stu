@@ -89,7 +89,7 @@ export default {
 		
 		//跳转到试卷详情页
 		toExamMsg(examId,paperId) {
-		  this.$router.push({path: '/examDetail', query: {examId: examId,paperId:paperId}})
+		 // this.$router.push({path: '/examDetail', query: {examId: examId,paperId:paperId}})
 		},
 		
 		
