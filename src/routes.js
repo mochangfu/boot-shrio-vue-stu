@@ -1,6 +1,7 @@
 import Test from './views/test/Test.vue'
 import Login from './views/Login.vue'
 import NotFound from './views/404.vue'
+import welcome from './views/welcome.vue'
 import Home from './views/Home.vue'
 import Main from './views/Main.vue'
 import UserList from './views/user/UserList.vue'
@@ -40,6 +41,12 @@ let router = [
     {
         path: '/404',
         component: NotFound,
+        name: '',
+        hidden: true
+    },
+    {
+        path: '/welcome',
+        component: welcome,
         name: '',
         hidden: true
     },

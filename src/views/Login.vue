@@ -56,7 +56,7 @@
         if(data.data.status === 200) {
           _this.message(true,data.data.msg,'success')
           sessionStorage.setItem('user', JSON.stringify(data.data.data))
-          _this.$router.push({ path: '/user/list' })
+          _this.$router.push({ path: '/welcome' })
         } else {
            _this.message(true,data.data.msg,'error')
         }
